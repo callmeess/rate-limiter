@@ -1,0 +1,109 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+!packages/build/
+*.nuget.props
+*.nuget.targets
+
+# Azure
+PublishScripts/
+*.azurePubxml
+
+# Publish output
+publish/
+wwwroot/dist/
+wwwroot/lib/
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+
+# Coverage reports
+coverage/
+coverage.*
+*.coverage
+*.coveragexml
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# DotCover
+*.dotCover
+
+# BenchmarkDotNet
+BenchmarkDotNet.Artifacts/
+
+# Entity Framework
+*.mdf
+*.ldf
+
+# SQL Server
+*.ndf
+
+# Local environment files
+.env
+.env.*
+appsettings.Development.json
+secrets.json
+
+# User secrets
+secrets/
+
+# Generated files
+Generated/
+*.generated.cs
+
+# Temporary files
+*.tmp
+*.temp
+
+# JetBrains Rider
+.idea/
+
+# Node.js (if frontend is included)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Package lock files (optional)
+# package-lock.json
+# yarn.lock
