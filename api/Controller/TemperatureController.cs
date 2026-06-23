@@ -27,11 +27,11 @@ public class TemperatureController : ControllerBase
     public async Task<IActionResult> GetTemperature()
     {
 
-        string key = "temperature_request";
-        int limit = 5; // Allow 5 requests
-        TimeSpan period = TimeSpan.FromMinutes(1); // per minute
+        // string key = "temperature_request";
+        // int limit = 5; // Allow 5 requests
+        // TimeSpan period = TimeSpan.FromMinutes(1); // per minute
 
-        bool isAllowed = await _rateLimitService.IsRequestAllowedAsync(key, limit, period);
+        bool isAllowed = await _rateLimitService.IsRequestAllowedAsync();
 
         if (!isAllowed)
         {
