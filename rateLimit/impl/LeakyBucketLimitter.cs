@@ -1,38 +1,51 @@
 namespace rateLimit;
 
-// load configuration from appsettings.json
-public class LeakyBucketLimiter : IRateLimitService
+public sealed class LeakyBucketRateLimiter : IRateLimitService
 {
-    private readonly int rate; // requests per second
-    private int currentLevel;
-    private DateTime lastChecked;
+    private readonly object _lock = new();
+    private readonly double _capacity;
+    private readonly double _leakRatePerSecond;
+    private double _currentLevel;
+    private DateTime _lastUpdate;
 
 
-    public LeakyBucketLimiter(int rate , int currentLevel = 0)
+    public LeakyBucketRateLimiter(
+        int capacity,
+        double leakRatePerSecond)
     {
-        this.rate = rate;
-        this.currentLevel = currentLevel;
-        this.lastChecked = DateTime.UtcNow;
-    }
+        if (capacity <= 0)
+            throw new ArgumentOutOfRangeException(nameof(capacity));
 
-    public Task<bool> IsRequestAllowedAsync(string key, int limit, TimeSpan period)
-    {
-        throw new NotImplementedException();
+        if (leakRatePerSecond <= 0)
+            throw new ArgumentOutOfRangeException(nameof(leakRatePerSecond));
+
+        _capacity = capacity;
+        _leakRatePerSecond = leakRatePerSecond;
+        _lastUpdate = DateTime.UtcNow;
     }
 
     public Task<bool> IsRequestAllowedAsync()
     {
-        // lock to ensure thread safety
-        lock (this)
+        lock (_lock)
         {
-            if ((DateTime.UtcNow - lastChecked).TotalSeconds < 1.0 / rate)
-            {
-                return Task.FromResult(false);
-            }
-            currentLevel++;
-            lastChecked = DateTime.UtcNow;
-            return Task.FromResult(true);
-        }
+            var now = DateTime.UtcNow;
 
+            var elapsedSeconds = (now - _lastUpdate).TotalSeconds;
+
+            _currentLevel = Math.Max(
+                0,
+                _currentLevel - elapsedSeconds * _leakRatePerSecond);
+
+            _lastUpdate = now;
+
+            if (_currentLevel < _capacity)
+            {
+                _currentLevel++;
+                return Task.FromResult(true);
+            }
+
+            return Task.FromResult(false);
+        }
     }
+
 }

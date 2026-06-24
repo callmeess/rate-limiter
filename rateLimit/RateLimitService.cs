@@ -30,4 +30,9 @@ public class RedisRateLimitService : IRateLimitService
         // return true if the count is less than or equal to the limit
         return count <= limit;
     }
+
+    public Task<bool> IsRequestAllowedAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

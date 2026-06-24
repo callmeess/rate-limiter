@@ -35,11 +35,16 @@ public class TemperatureController : ControllerBase
 
         if (!isAllowed)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Temperature request denied due to rate limiting.");
             return StatusCode(429, "Too many requests. Please try again later.");
+
         }
 
         // Simulate temperature retrieval
         var temperature = new Random().Next(-20, 55);
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"Temperature request allowed. Current temperature: {temperature}°C");
         return Ok(new { TemperatureC = temperature });
     }
 }

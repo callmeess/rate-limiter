@@ -13,8 +13,8 @@ builder.Services.AddSwaggerGen();
 // Redis
 builder.Services.AddSingleton<IConnectionMultiplexer>(
     ConnectionMultiplexer.Connect("localhost:6379"));
-
-builder.Services.AddSingleton<IRateLimitService, RedisRateLimitService>();
+// builder.Services.AddSingleton<IRateLimitService, RedisRateLimitService>();
+builder.Services.AddSingleton<IRateLimitService>( new LeakyBucketRateLimiter(1, 200));
 
 var app = builder.Build();
 
