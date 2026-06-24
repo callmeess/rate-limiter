@@ -27,19 +27,24 @@ public class TemperatureController : ControllerBase
     public async Task<IActionResult> GetTemperature()
     {
 
-        string key = "temperature_request";
-        int limit = 5; // Allow 5 requests
-        TimeSpan period = TimeSpan.FromMinutes(1); // per minute
+        // string key = "temperature_request";
+        // int limit = 5; // Allow 5 requests
+        // TimeSpan period = TimeSpan.FromMinutes(1); // per minute
 
-        bool isAllowed = await _rateLimitService.IsRequestAllowedAsync(key, limit, period);
+        bool isAllowed = await _rateLimitService.IsRequestAllowedAsync();
 
         if (!isAllowed)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Temperature request denied due to rate limiting.");
             return StatusCode(429, "Too many requests. Please try again later.");
+
         }
 
         // Simulate temperature retrieval
         var temperature = new Random().Next(-20, 55);
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"Temperature request allowed. Current temperature: {temperature}°C");
         return Ok(new { TemperatureC = temperature });
     }
 }
