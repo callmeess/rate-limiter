@@ -4,7 +4,7 @@ export const options = {
   scenarios: {
     steady_load: {
       executor: "constant-arrival-rate",
-      rate: 100,      // requests/sec
+      rate: 50,      // requests/sec
       timeUnit: "1s",
       duration: "5s",
       preAllocatedVUs: 200,

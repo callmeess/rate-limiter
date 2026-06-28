@@ -13,12 +13,14 @@ builder.Services.AddSwaggerGen();
 // Redis
 builder.Services.AddSingleton<IConnectionMultiplexer>(
     ConnectionMultiplexer.Connect("localhost:6379"));
+
 // builder.Services.AddSingleton<IRateLimitService, RedisRateLimitService>();
-builder.Services.AddSingleton<IRateLimitService>( new LeakyBucketRateLimiter(1, 200));
+// builder.Services.AddSingleton<IRateLimitService>( new LeakyBucketRateLimiter(1, 200));
+
+builder.Services.AddSingleton<IRateLimitService>( new TokenBucketLimmiter(150, 50));
 
 var app = builder.Build();
 
-// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
